@@ -78,7 +78,6 @@ Review that the PR changes only one YAML. Use the correct fork owner in `--head`
 - [ ] Owner approves public repo namespace, maintainer, public Git identity and MIT licensing.
 - [ ] Public release URL, exact SHA and version agree; clean-clone validation and CI pass.
 - [ ] Preserve scanner cautions and limitations; do not claim sandboxing or complete tool coverage.
-- [ ] Record the genuine 75–85 second product demo from examples/PRODUCT_DEMO.md; verify playable duration and public viewing permissions.
 - [ ] Review official form's required team/contact/license/demo fields; supply owner-approved values.
 - [ ] Obtain separate approval for catalog PR and hackathon form submission.
 - [ ] Record final URLs and submission receipt after actual submission; never claim admission beforehand.

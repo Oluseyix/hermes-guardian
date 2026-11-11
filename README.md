@@ -1,6 +1,6 @@
 # Hermes Guardian
 
-**0.2.0 — Policy Lab upgrade.** Describe → Generate → Simulate → Review → Activate → Enforce. The original validated release is preserved locally on `guardian-stable`; the deterministic enforcement and audit code remain unchanged. Start with the [Policy Lab operator guide](docs/POLICY_LAB.md) and [real 80-second product demo](examples/PRODUCT_DEMO.md).
+**0.2.0 — Policy Lab upgrade.** Describe → Generate → Simulate → Review → Activate → Enforce. The original validated release is preserved locally on `guardian-stable`; the deterministic enforcement and audit code remain unchanged. Start with the [Policy Lab operator guide](docs/POLICY_LAB.md).
 
 ```sh
 hermes guardian propose 'Hermes can edit my coding projects, but must ask before deleting files or pushing code to GitHub.'
@@ -154,4 +154,4 @@ MIT licensed. A [catalog draft](submission/hermes-guardian.yaml.in) is prepared 
 
 ## Release preparation
 
-The [80-second product demo](examples/PRODUCT_DEMO.md) exercises real Hermes 0.23.1 dispatch and native approval using disposable fixtures. See the [release review](docs/RELEASE_REVIEW.md) and [publication checklist](submission/RELEASE.md) for verified results, missing metadata and approval-gated publication commands. Nothing has been published or submitted.
+See the [release review](docs/RELEASE_REVIEW.md) and [publication checklist](submission/RELEASE.md) for verified results, missing metadata and approval-gated publication commands. Nothing has been published or submitted.

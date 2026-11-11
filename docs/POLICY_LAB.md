@@ -87,4 +87,4 @@ Backups contain policy paths, not credentials or execution arguments. They are n
 
 Version 0.2.0 keeps the old configuration schema and hook/audit behavior. The original release is preserved on local branch `guardian-stable`. Automatic gap fuzzing/minimal-fix generation (P1) is deferred; this release supplies explicit fixed gap explanations and reproducible regression templates, not autonomous repair. No proposals or fixes are applied without operator approval.
 
-See [VALIDATION.md](VALIDATION.md) for real test outcomes and [PRODUCT_DEMO.md](../examples/PRODUCT_DEMO.md) for the 80-second demonstration. The demo uses the offline template and genuine Hermes dispatch/approval; it does not claim model inference.
+See [VALIDATION.md](VALIDATION.md) for real test outcomes.

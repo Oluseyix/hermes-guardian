@@ -29,7 +29,6 @@ The new CLI modules import no private Hermes internals. Only developer harnesses
 ## Reviewable artifacts
 
 - [Operator guide](POLICY_LAB.md)
-- [80-second product demo](../examples/PRODUCT_DEMO.md)
 - [Publication commands and checklist](../submission/RELEASE.md)
 - [Release notes](../submission/RELEASE_NOTES.md)
 - [Catalog PR body](../submission/CATALOG_PR.md)
