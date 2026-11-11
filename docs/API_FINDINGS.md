@@ -76,3 +76,15 @@ Implementation plan followed: independent native adapter; strict rule engine; co
 ## Before catalog submission
 
 The complete official validator and real allow/deny/timeout terminal flows now pass; scanner cautions are reviewed in VALIDATION.md. Before submission, revalidate the exact committed release tree, obtain the owner's publication approval, and replace the catalog draft's metadata placeholders with a public repository URL and full 40-character release commit pin. None is fabricated here. No PR, upload, or public publication was performed.
+
+## 0.2.0 operator workflow API verification (November 11, 2026)
+
+Inspected the installed official 0.23.1 `plugins_context.py`, `plugins_state.py` and `agent/plugin_llm.py` before implementing the upgrade. Public `ctx.register_cli_command(name, help, setup_fn, handler_fn)` registers `hermes guardian`; no tool or slash-command activation surface is added. Native manifest/catalog tool and hook declarations remain unchanged; there is no invented CLI capability field.
+
+Public `ctx.llm.complete_structured(instructions=..., input=..., json_schema=..., schema_name=..., purpose=..., temperature=..., max_tokens=..., timeout=...)` returns `result.parsed`. The optional builder uses that surface without provider/model/auth overrides, and validates the parsed value locally. See [official LLM access](https://hermes-agent.nousresearch.com/docs/developer-guide/plugin-llm-access). Provider inference is not part of enforcement or simulation, and was not live-tested without configured credentials.
+
+Public `ctx.get_config` reads `settings.policy` first, falling back to `config.policy`. Public `ctx.set_config` writes the settings subtree through the host's locked merge and atomic replacement, refuses managed settings, and preserves sibling keys. Guardian stores an effective-policy backup before calling it, checks readback, and attempts verified rollback on failure. It does not use private configuration writers. Real host tests exercise precedence, fallback, persistence and subsequent enforcement.
+
+The policy language still has exactly `default_action`, exact-tool `rules` and `protected_paths`; no command-pattern or positive path scope was invented. Policy Lab imports the exact existing evaluator and supplies the intended home/source/storage mandatory protections. The command registration is the only entrypoint addition; the hook adapter, evaluator and decision audit implementation remain byte-for-byte unchanged from `guardian-stable`.
+
+Policy Lab increases overlap with Policy Backtester. Distinguish reproducible hypothetical cases and minimal payload retention, not novelty in policy simulation. Automatic gap-case generation and automatic repair remain deferred.

@@ -20,6 +20,9 @@ class Context:
         assert key == "policy"
         return self.config
 
+    def register_cli_command(self, *args, **kwargs):
+        pass
+
     def register_hook(self, name, callback):
         self.hooks[name] = callback
 

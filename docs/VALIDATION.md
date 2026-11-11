@@ -1,4 +1,65 @@
-# Real Hermes verification report
+# Verification — Guardian 0.2.0 Policy Lab upgrade
+
+Verified November 11, 2026, on macOS arm64 with official Hermes **0.23.1**, commit `3b421578588243f920886e6fe79a6faa87ea026e`. User-supplied deadline: November 11 at 5 PM EST (22:00 UTC / 23:00 Lagos). No external publication or submission occurred.
+
+## Preservation and scope
+
+Before changing any project file, initialized local Git and committed the complete previously reviewed tree on **`guardian-stable`**, commit **`afa7733d17f2beed0d1ab6e5bd7faca4a8f1a2c2`**, then created `guardian-upgrade`. The baseline uses a neutral local snapshot author; no public maintainer identity was inferred. Original `guardian/policy.py`, `guardian/runtime.py` and `guardian/audit.py` remain byte-for-byte unchanged. The entrypoint additionally registers the operator CLI; version is 0.2.0 and the configuration schema is unchanged.
+
+## Upgrade results
+
+| Verification | Actual outcome |
+|---|---|
+| Python 3.13.7 unit suite | **87 passed**, including the original 63 tests |
+| Installed Hermes Python 3.14.9 unit suite | **87 passed** |
+| Original real-runtime matrix | **7 scenarios / 194 checks passed again** |
+| New real-host product integration | **31 checks passed** |
+| Original non-executing demo | **7 scenarios passed** |
+| Product demo rehearsal | **80.00 seconds**, actual host outputs, scripted PTY responses; exit 0 |
+| Plugin Doctor | **Exit 0**, actual load, zero tools / one hook |
+| Full `plugins validate --install-deps` | **Exit 0**, same reviewed five scanner locations; no new runtime/private-API warning |
+| Current official catalog parser | Draft metadata placeholders rejected as expected; in-memory schema fixture accepted and manifest fields matched |
+
+The 24 new unit tests cover exact-evaluator simulation, no file-content access/writes, process/network/approval refusal guards, symlinks/self-protection, precedence, visible expectation mismatches, malformed cases/policies/model outputs, unknown/ambiguous wording, strict known-tool/path constraints, unchanged stronger rules, stale proposals, provider-error redaction, explicit/rejected confirmation, backup failure, owner-only backups, symlink storage refusal, lock contention, successful rollback after injected post-write/readback failures, and explicit recovery errors when rollback itself cannot write.
+
+New real-host checks use actual plugin discovery, the installed `hermes guardian` CLI, public `ctx.get_config` / `ctx.set_config`, host configuration serialization and real tool dispatch. They verify settings-over-legacy precedence, legacy fallback, unrelated-key preservation, rejected and confirmed proposal saves, rejected and confirmed activation, effective-policy backups, all seven Lab/live policy decision/reason/rule matches, unattended denial of approval requests, protected fixture preservation and live enforcement of a changed policy without replacing the hook. For approval cases, Lab predicts **approve** while the unattended host refuses execution; comparing audit policy decisions avoids conflating those two layers.
+
+The product demonstration uses the honest **offline exact-language template**, not a model. It accepts the original natural-language example, asks clarification about unsupported scope/Git behavior, accepts the explicit conservative wording, simulates seven cases, reviews and confirms the digest, saves through Hermes, then performs an actual allowed read, native Once-approved write and protected block. The real audit is displayed. Rehearsal inputs are scripted; a human video remains outstanding.
+
+## Commands executed for the upgrade
+
+Use the same isolated environment from the historical installation report below. `IG`, `HS` and `HP` denote private integration storage, official source and installed Hermes Python; substitute your own paths. Commands ran from this repository root:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -q
+python3 "$IG/run.py" "$HP" -m unittest discover -s tests -q
+python3 "$IG/run.py" "$HP" tests/run_hermes_matrix.py --source "$HS" --workspace "$IG/upgrade-cases"
+python3 "$IG/run.py" "$HP" tests/product_integration.py --source "$HS"
+python3 "$IG/run.py" "$HP" tests/rehearse_product_demo.py --source "$HS" --log "$IG/logs/product-demo.log"
+PYTHONDONTWRITEBYTECODE=1 python3 demo.py --output "$IG/upgrade-standalone-demo"
+python3 "$IG/run.py" "$HS/.hermes/bin/hermes" plugins doctor "$PWD" --ci
+python3 "$IG/run.py" "$HS/.hermes/bin/hermes" plugins validate "$PWD" --install-deps
+git diff guardian-stable -- guardian/policy.py guardian/runtime.py guardian/audit.py
+git diff --check
+```
+
+All completed checks above exited 0. Matrix logs are in `upgrade-cases/matrix-logs`; other private evidence: `logs/product-integration.log`, `logs/product-demo.log`, `logs/product-demo-runner.log`, `logs/upgrade-doctor.log`, `logs/upgrade-validate.log`. Do not publish raw fixture/audit/config logs. The developer harness uses the installed venv's official `hermes` console entrypoint for subprocess CLI checks, so a fresh fixture HERMES_HOME does not need separate PM installation state.
+
+## Failures and limitations
+
+- Initial new CLI integration failed because the PM launcher had no committed dependency environment under the disposable Hermes home. Using the already-installed official virtualenv console entrypoint fixed this test setup issue; no core patch or global configuration change.
+- Rejected saves/activation, malformed outputs, missing confirmation, stale policies and injected storage failures are intentional negative tests, not successful activations. A persistent storage outage can prevent rollback; the tested error explicitly says to stop the agent and recover the retained backup. An interrupted process after replacement may leave the approved new policy active. Concurrent non-Guardian config editors must be stopped.
+- The optional `ctx.llm.complete_structured` route is source/API verified and unit-tested with controlled responses, **not live-provider-tested**. No model completion or credentials were fabricated. A configured provider is required for optional model inference, and may charge; no separate key is mandatory. The safe offline workflow is complete and tested.
+- The builder cannot implement project-scoped positive access or Git push approval with the unchanged evaluator. It asks clarification, preserves path protections, blocks unsupported Git operations and exposes tool-wide limitations. It does not guess paths or tool capabilities.
+- P1 automatic edge-case generation/minimal-fix suggestions are deferred. Seven fixed hypothetical regressions and explicit gaps are provided; no autonomous repairs.
+- Existing limitations remain: not a sandbox; local path races/aliases, host auto-approval, later argument rewrites, unsupported tool adapters and disabled/failed loading limit coverage. Lab predicts policy only, not audit availability, execution success or final consent.
+- Linux/remote CI, provider inference, full model-driven chat and gateway/Desktop/TUI remain unverified. No public repository, catalog PR, hackathon form or human-recorded final video exists yet. See [release checklist](../submission/RELEASE.md).
+
+The five scanner locations remain the protected AWS/SSH path literals in `policy.py` and `examples/config.yaml`, plus the destructive disposable-command example in `examples/LIVE_DEMO.md`; detailed review remains below. No scan was suppressed. Host isolation is still not a sandbox.
+
+---
+
+# Original 0.1.0 verification (historical)
 
 Verified November 10, 2026, on macOS Apple Silicon. This report supersedes the earlier source-only verification.
 

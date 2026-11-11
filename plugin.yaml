@@ -1,6 +1,6 @@
 name: hermes-guardian
-version: "0.1.0"
-description: Deterministic tool policies, protected local paths, and redacted decision audits.
+version: "0.2.0"
+description: Describe, simulate and review tool policies with native enforcement and redacted audits.
 manifest_version: 2
 api_version: 1
 requires_hermes: ">=0.23.1"

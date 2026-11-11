@@ -1,8 +1,16 @@
 # Hermes Guardian
 
+**0.2.0 — Policy Lab upgrade.** Describe → Generate → Simulate → Review → Activate → Enforce. The original validated release is preserved locally on `guardian-stable`; the deterministic enforcement and audit code remain unchanged. Start with the [Policy Lab operator guide](docs/POLICY_LAB.md) and [real 80-second product demo](examples/PRODUCT_DEMO.md).
+
+```sh
+hermes guardian propose 'Hermes can edit my coding projects, but must ask before deleting files or pushing code to GitHub.'
+```
+
+The command asks for clarification rather than inventing unsupported permissions. Choose the documented conservative offline template, or explicitly request the optional Hermes model builder with `--model`. All proposals are untrusted; simulation is read-only and activation requires operator confirmation. No separate API key or new dependency is required. The offline builder is deliberately limited, and the optional model route has not been live-provider-tested here.
+
 A standalone Hermes Agent plugin for deterministic **allow / approve / block** tool policies. Built for the Nous Research Hermes Agent Plugin Hackathon, November 11, 2026 deadline.
 
-Guardian checks configured local paths, rejects shell syntax it cannot interpret, and writes a redacted decision record before allowing a call to proceed. It uses the public `pre_tool_call` hook and Hermes's own approval gate. No model calls, runtime dependencies, network requests, subprocesses, or core patches in the plugin.
+Guardian checks configured local paths, rejects shell syntax it cannot interpret, and writes a redacted decision record before allowing a call to proceed. It uses the public `pre_tool_call` hook and Hermes's own approval gate. The enforcement hook has no model calls, third-party dependencies, network requests, subprocesses or core patches. Optional operator-side model generation is separate and explicitly requested.
 
 **This is a policy hook, not a sandbox or complete security boundary.** Start with a local POSIX terminal/file backend, trusted plugins, and the default deny policy. Remote/container paths are not reliably comparable to the host filesystem. See [limitations](#limitations) before enabling.
 
@@ -140,10 +148,10 @@ To recover from an invalid policy or intentional default-deny blockage, edit the
 
 The catalog already has security and permission plugins; [the comparison](docs/API_FINDINGS.md#catalog-comparison) records the closest overlaps, including the live catalog reviewed on November 10. Guardian's distinction is its small in-process, dependency-free policy engine, native approval directives, strict local-path/command scope, and payload-free audits. Archytan Lite and Tenuo already provide argument-level authorization; Policy Backtester already combines policies with native approval. Guardian is an independently written alternative with a smaller deployment footprint, not a novel security category or a replacement for those systems.
 
-Runtime reads: plugin settings through Hermes, and path metadata/symlink targets needed for policy checks (possibly outside the plugin directory). Runtime writes: its own persistent audit. No credential-file reads, shell execution, model calls, external network calls, background workers, stored credentials, telemetry, or self-update. Tests and verification scripts are developer-only and may run Python subprocesses or invoke the installed Hermes validator; they are not imported by the plugin.
+Enforcement reads: plugin settings through Hermes, and path metadata/symlink targets needed for policy checks (possibly outside the plugin directory). Enforcement writes: its own persistent audit. The enforcement hook performs no credential-file reads, shell execution, model calls, external network calls, background work, telemetry, or self-update. The optional operator command `hermes guardian propose --model` sends instructions and policy paths through the public Hermes model interface; the provider may charge. Confirmed operator activation writes settings through the public host API and stores owner-only policy backups. Tests and verification scripts are developer-only and may run Python subprocesses or invoke the installed Hermes validator; they are not imported by the plugin.
 
 MIT licensed. A [catalog draft](submission/hermes-guardian.yaml.in) is prepared with explicit unpublished metadata placeholders. No repository, pull request, catalog submission, or site has been published by this build.
 
 ## Release preparation
 
-The [80-second live demo](examples/DEMO_80_SECONDS.md) exercises real Hermes 0.23.1 dispatch and native approval using disposable fixtures. See the [release review](docs/RELEASE_REVIEW.md) and [publication checklist](submission/RELEASE.md) for verified results, missing metadata and approval-gated publication commands. Nothing has been published or submitted.
+The [80-second product demo](examples/PRODUCT_DEMO.md) exercises real Hermes 0.23.1 dispatch and native approval using disposable fixtures. See the [release review](docs/RELEASE_REVIEW.md) and [publication checklist](submission/RELEASE.md) for verified results, missing metadata and approval-gated publication commands. Nothing has been published or submitted.

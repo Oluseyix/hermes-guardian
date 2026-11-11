@@ -23,3 +23,7 @@ demo-output/
 release-output/
 .hermes/
 local-config.*
+proposal*.json
+policy-backup-*.json
+activation.lock
+.policy-*.tmp

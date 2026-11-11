@@ -80,5 +80,26 @@
   "catalog_generated_at": "2026-11-10T18:50:48.589621+00:00",
   "catalog_entries": 1578,
   "catalog_sha256": "3437c7086d955844bebe8bb39c308a9a438b9edabe851590319d1e0b62c2d21c",
-  "published": false
+  "published": false,
+  "upgrade": {
+    "version": "0.2.0",
+    "date": "2026-11-11",
+    "stable_commit": "afa7733d17f2beed0d1ab6e5bd7faca4a8f1a2c2",
+    "unit_tests": {
+      "python_3_13_7": 87,
+      "python_3_14_9": 87,
+      "passed": true
+    },
+    "original_matrix_checks": 194,
+    "product_integration_checks": 31,
+    "demo_elapsed_seconds": 80.0,
+    "demo_input": "scripted PTY; offline template, actual Hermes outputs",
+    "live_model_inference_tested": false,
+    "doctor_exit": 0,
+    "validator_exit": 0,
+    "security_scan": "caution",
+    "enforcement_files_unchanged": true,
+    "published": false,
+    "product_demo_checks": 17
+  }
 }

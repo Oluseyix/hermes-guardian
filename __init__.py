@@ -9,3 +9,9 @@ def register(ctx):
 
     guardian = Guardian(ctx, data_dir)
     ctx.register_hook("pre_tool_call", guardian.pre_tool_call)
+
+    from .guardian.cli import setup, handle
+    ctx.register_cli_command(
+        "guardian", "Propose, simulate, review and explicitly activate Guardian policies",
+        setup, lambda args: handle(args, ctx),
+    )
