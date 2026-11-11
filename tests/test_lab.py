@@ -32,6 +32,37 @@ class Fixture:
         self.cases = regression_cases(self.workspace, self.vault)
 
 
+
+class ModelSecurityTests(Fixture, unittest.TestCase):
+
+    def test_model_cannot_remove_protected_paths(self):
+        candidate = copy.deepcopy(self.config)
+        candidate['protected_paths'] = []
+        with self.assertRaisesRegex(ValueError, 'remove or weaken'):
+            from_model({'policy': candidate, 'questions': []}, self.config)
+
+    def test_model_cannot_weaken_protected_paths(self):
+        candidate = copy.deepcopy(self.config)
+        candidate['protected_paths'][0]['action'] = 'approve'
+        with self.assertRaisesRegex(ValueError, 'remove or weaken'):
+            from_model({'policy': candidate, 'questions': []}, self.config)
+
+    def test_model_cannot_allow_by_default(self):
+        candidate = copy.deepcopy(self.config)
+        candidate['default_action'] = 'allow'
+        with self.assertRaises(ValueError):
+            from_model({'policy': candidate, 'questions': []}, self.config)
+
+    def test_model_cannot_invent_caregiver_tool(self):
+        candidate = copy.deepcopy(self.config)
+        candidate['rules'].append({
+            'tool': 'send_patient_record',
+            'action': 'allow'
+        })
+        with self.assertRaises(ValueError):
+            from_model({'policy': candidate, 'questions': []}, self.config)
+
+
 class LabTests(Fixture, unittest.TestCase):
     def test_regression_and_exact_evaluator(self):
         results = simulate(self.config, self.cases, home=self.home)

@@ -52,6 +52,7 @@ def main():
                       "cron_mode": "deny", "unattended_mode": "deny", "single_query_mode": "deny"},
     }
     (home / "config.yaml").write_text(json.dumps(config))
+
     os.environ["HERMES_HOME"] = str(home)
     for key in ("HERMES_INTERACTIVE", "HERMES_CRON_SESSION", "HERMES_SINGLE_QUERY_SESSION", "HERMES_EXEC_ASK", "HERMES_GATEWAY_SESSION", "HERMES_YOLO"):
         os.environ.pop(key, None)
@@ -103,6 +104,37 @@ def main():
     check("symlink loop blocked", "Guardian" in result and "ambiguous_arguments" in result)
     result = call("write_file", {"path": str(vault / "key.txt"), "content": "MUST_NOT_WRITE"})
     check("protected write veto preserves contents", "Guardian" in result and (vault / "key.txt").read_text() == "PROTECTED_SENTINEL_DO_NOT_RETURN")
+    # Caregiver security: fictional data, real Hermes dispatcher.
+    caregiver_records = vault / "caregiver_records"
+    caregiver_records.mkdir()
+    fictional_record = caregiver_records / "fictional_patient.txt"
+    fictional_record.write_text("FICTIONAL_CAREGIVER_SECRET")
+
+    result = call("read_file", {"path": str(fictional_record)})
+    check(
+        "caregiver confidential read blocked",
+        "Guardian" in result and "FICTIONAL_CAREGIVER_SECRET" not in result
+    )
+
+    result = call("write_file", {
+        "path": str(fictional_record),
+        "content": "UNAUTHORIZED_CHANGE"
+    })
+    check(
+        "caregiver confidential modification blocked",
+        "Guardian" in result
+        and fictional_record.read_text() == "FICTIONAL_CAREGIVER_SECRET"
+    )
+
+    result = call("read_file", {
+        "path": str(caregiver_records / ".." / "key.txt")
+    })
+    check(
+        "caregiver traversal blocked",
+        "Guardian" in result
+        and "PROTECTED_SENTINEL_DO_NOT_RETURN" not in result
+    )
+
     destination = fixtures / "approval.txt"
     started = time.monotonic()
     result = call("write_file", {"path": str(destination), "content": "SENSITIVE_DEMO_PAYLOAD_NOT_FOR_AUDIT"})
