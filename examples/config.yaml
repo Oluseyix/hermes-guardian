@@ -1,0 +1,17 @@
+# Merge into the active profile's config.yaml. Replace the project path.
+plugins:
+  entries:
+    hermes-guardian:
+      settings:
+        policy:
+          default_action: block
+          rules:
+            - {tool: read_file, action: allow}
+            - {tool: write_file, action: approve}
+            - {tool: patch, action: approve}
+            - {tool: terminal, action: approve}
+          protected_paths:
+            - {path: "~/.ssh", action: block}
+            - {path: "~/.aws", action: block}
+            - {path: "~/.hermes", action: block}
+            - {path: "/absolute/project/.env", action: block}

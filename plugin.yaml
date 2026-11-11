@@ -1,0 +1,17 @@
+name: hermes-guardian
+version: "0.1.0"
+description: Deterministic tool policies, protected local paths, and redacted decision audits.
+manifest_version: 2
+api_version: 1
+requires_hermes: ">=0.23.1"
+license: MIT
+platforms: [linux, macos]
+python_dependencies: []
+provides_tools: []
+provides_hooks: [pre_tool_call]
+requires_env: []
+capabilities: []
+config_schema:
+  policy:
+    type: dict
+    description: Strict policy object; see README. Invalid configuration blocks tool calls.

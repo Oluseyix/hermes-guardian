@@ -1,0 +1,39 @@
+# DRAFT ONLY. Not a publishable catalog entry until the owner approves publication
+# and replaces repo/sha/maintainer with verified release metadata.
+# Native plugin.yaml and catalog entry schemas differ: this nesting is intentional.
+name: hermes-guardian
+title: Hermes Guardian
+repo: "<PUBLIC_HTTPS_REPOSITORY_URL>"
+sha: "<FULL_40_CHARACTER_RELEASE_COMMIT_SHA>"
+version: "0.1.0"
+maintainer: "<OWNER_APPROVED_MAINTAINER>"
+tier: community
+category: tools
+requires_hermes: ">=0.23.1"
+platforms: [linux, macos]
+readme: true
+description: >-
+  Deterministic allow/approve/block policies for Hermes tool calls. Exact tool-name
+  rules, explicit protected local paths, a deliberately limited shell grammar,
+  and payload-free persistent decision audits. Unknown tools default to block;
+  ambiguous recognized-tool arguments, invalid policy, and audit failures block.
+  Uses the public pre_tool_call hook and native Hermes approval directives.
+  Disclosure: reads its own settings through Hermes and filesystem metadata and
+  symlink targets for path comparisons; writes redacted JSONL under the active
+  profile's plugin-data/hermes-guardian directory. No protected file-content reads,
+  runtime network calls, subprocesses, model calls, credential storage, telemetry,
+  core overrides, or self-updater. Approval rules follow host YOLO/approvals-off and
+  unattended-mode settings; hard block rules do not ask for approval. A policy
+  hook, not a sandbox: intended for a trusted local POSIX backend and trusted
+  plugins that do not rewrite arguments after inspection.
+known_issues:
+  - "Remote/container path namespaces, hard-link/case/mount aliases and filesystem races are not secured."
+  - "Explicitly allowed tools outside the recognized file/terminal adapters receive tool-name checks only."
+  - "Other plugins can rewrite arguments after the hook; disabled or failed-to-load Guardian provides no protection."
+  - "The 16 MiB audit limit, write failure, partial trailing record or lock contention blocks calls until repaired or retried."
+  - "Audit records describe policy decisions, not execution or final human approval."
+capabilities:
+  provides_tools: []
+  provides_hooks: [pre_tool_call]
+  provides_middleware: []
+  requires_env: []

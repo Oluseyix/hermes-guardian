@@ -1,0 +1,84 @@
+{
+  "date": "2026-11-10",
+  "platform": "macOS arm64",
+  "hermes_version": "0.23.1",
+  "hermes_commit": "3b421578588243f920886e6fe79a6faa87ea026e",
+  "runtime_python": "3.14.9",
+  "unit_tests": {
+    "python_3_13_7": 63,
+    "python_3_14_9": 63,
+    "passed": true
+  },
+  "doctor": {
+    "exit_code": 0,
+    "tools": 0,
+    "hooks": 1
+  },
+  "validate": {
+    "exit_code": 0,
+    "install_deps": true,
+    "security_scan": "caution",
+    "findings": [
+      "aws_dir_access",
+      "ssh_dir_access",
+      "destructive_root_rm"
+    ]
+  },
+  "matrix": [
+    {
+      "mode": "unattended",
+      "expected": "deny",
+      "checks": 28,
+      "approval_elapsed_seconds": 0.002
+    },
+    {
+      "mode": "cron",
+      "expected": "deny",
+      "checks": 28,
+      "approval_elapsed_seconds": 0.002
+    },
+    {
+      "mode": "single-query",
+      "expected": "deny",
+      "checks": 28,
+      "approval_elapsed_seconds": 0.002
+    },
+    {
+      "mode": "approvals-off",
+      "expected": "allow",
+      "checks": 28,
+      "approval_elapsed_seconds": 0.011
+    },
+    {
+      "mode": "interactive",
+      "expected": "allow",
+      "checks": 27,
+      "approval_elapsed_seconds": 0.106
+    },
+    {
+      "mode": "interactive",
+      "expected": "deny",
+      "checks": 27,
+      "approval_elapsed_seconds": 0.068
+    },
+    {
+      "mode": "interactive",
+      "expected": "timeout",
+      "checks": 28,
+      "approval_elapsed_seconds": 3.089
+    }
+  ],
+  "matrix_total_checks": 194,
+  "pty_responses": "scripted; real host prompt, no core mocks",
+  "model_calls": 0,
+  "concurrency_stress": {
+    "runs": 100,
+    "attempts_per_run": 80,
+    "failures": 0,
+    "errors": 0
+  },
+  "catalog_generated_at": "2026-11-10T18:50:48.589621+00:00",
+  "catalog_entries": 1578,
+  "catalog_sha256": "3437c7086d955844bebe8bb39c308a9a438b9edabe851590319d1e0b62c2d21c",
+  "published": false
+}
